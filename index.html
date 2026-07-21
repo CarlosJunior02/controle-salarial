@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinTrack — Seu Controle Financeiro Inteligente</title>
+    <!-- Google Fonts: Poppins & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome para Ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Arquivo de CSS Customizado -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Biblioteca Chart.js para os gráficos via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="dark-mode">
+    <div class="app-container">
+        <!-- Sidebar lateral de navegação -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <div class="brand-logo">
+                    <i class="fa-solid fa-wallet"></i>
+                </div>
+                <h2>FinTrack</h2>
+            </div>
+            
+            <nav class="sidebar-menu">
+                <ul>
+                    <li class="active"><a href="#"><i class="fa-solid fa-chart-pie"></i> Dashboard</a></li>
+                    <li><a href="#"><i class="fa-solid fa-list-check"></i> Transações</a></li>
+                    <li><a href="#"><i class="fa-solid fa-bullseye"></i> Metas</a></li>
+                    <li><a href="#"><i class="fa-solid fa-gears"></i> Configurações</a></li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-profile">
+                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80" alt="Avatar do usuário" class="profile-avatar">
+                <div class="profile-info">
+                    <h4>Carlos Junior</h4>
+                    <span>Desenvolvedor</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Conteúdo principal -->
+        <main class="main-content">
+            <!-- Cabeçalho principal -->
+            <header class="main-header">
+                <div class="header-title">
+                    <span class="welcome-text">Bem-vindo de volta,</span>
+                    <h1>Visão Geral Financeira</h1>
+                </div>
+                <div class="header-actions">
+                    <div class="date-display" id="current-date">Terça-feira, 21 de Julho</div>
+                    <button class="theme-toggle-btn" id="theme-toggle" aria-label="Alternar Tema">
+                        <i class="fa-solid fa-moon"></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Grid de Estatísticas (Cartões de Resumo) -->
+            <section class="stats-grid">
+                <!-- Saldo Geral -->
+                <div class="stat-card balance-card">
+                    <div class="card-icon"><i class="fa-solid fa-scale-balanced"></i></div>
+                    <div class="card-info">
+                        <h3>Saldo Atual</h3>
+                        <p class="stat-value" id="total-balance">R$ 0,00</p>
+                        <span class="trend up"><i class="fa-solid fa-circle-up"></i> Saúde estável</span>
+                    </div>
+                </div>
+
+                <!-- Receitas -->
+                <div class="stat-card income-card">
+                    <div class="card-icon"><i class="fa-solid fa-arrow-trend-up"></i></div>
+                    <div class="card-info">
+                        <h3>Receitas (Mês)</h3>
+                        <p class="stat-value text-success" id="total-income">R$ 0,00</p>
+                        <span class="trend-sub" id="income-percentage">Este mês</span>
+                    </div>
+                </div>
+
+                <!-- Despesas -->
+                <div class="stat-card expense-card">
+                    <div class="card-icon"><i class="fa-solid fa-arrow-trend-down"></i></div>
+                    <div class="card-info">
+                        <h3>Despesas (Mês)</h3>
+                        <p class="stat-value text-danger" id="total-expense">R$ 0,00</p>
+                        <span class="trend-sub" id="expense-percentage">Este mês</span>
+                    </div>
+                </div>
+
+                <!-- Meta de Economia -->
+                <div class="stat-card goal-card">
+                    <div class="card-icon"><i class="fa-solid fa-bullseye"></i></div>
+                    <div class="card-info">
+                        <h3>Meta Mensal (Guardar 20%)</h3>
+                        <div class="goal-progress-container">
+                            <div class="progress-bar" id="goal-progress" style="width: 0%"></div>
+                        </div>
+                        <div class="goal-footer">
+                            <span id="goal-text">R$ 0,00 / R$ 0,00</span>
+                            <span class="goal-percentage" id="goal-percent">0%</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Painel Central: Formulário e Gráficos -->
+            <section class="dashboard-middle">
+                <!-- Formulário para nova transação -->
+                <div class="form-container dashboard-box">
+                    <div class="box-header">
+                        <h2><i class="fa-solid fa-plus"></i> Nova Transação</h2>
+                    </div>
+                    <form id="transaction-form" autocomplete="off">
+                        <div class="input-group">
+                            <label for="description">Descrição</label>
+                            <input type="text" id="description" placeholder="Ex: Salário, Aluguel, Mercado" required>
+                        </div>
+                        
+                        <div class="input-row">
+                            <div class="input-group">
+                                <label for="amount">Valor (R$)</label>
+                                <input type="number" id="amount" step="0.01" min="0.01" placeholder="0,00" required>
+                            </div>
+                            <div class="input-group">
+                                <label for="type">Tipo</label>
+                                <select id="type" required>
+                                    <option value="income">Receita (+)</option>
+                                    <option value="expense">Despesa (-)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="input-row">
+                            <div class="input-group">
+                                <label for="category">Categoria</label>
+                                <select id="category" required>
+                                    <option value="" disabled selected>Selecione...</option>
+                                    <option value="Alimentação">Alimentação</option>
+                                    <option value="Moradia">Moradia</option>
+                                    <option value="Transporte">Transporte</option>
+                                    <option value="Lazer">Lazer</option>
+                                    <option value="Salário">Salário / Renda</option>
+                                    <option value="Investimentos">Investimentos</option>
+                                    <option value="Outros">Outros</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label for="date">Data</label>
+                                <input type="date" id="date" required>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn-submit">
+                            <i class="fa-solid fa-check"></i> Adicionar Transação
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Gráfico de Gastos por Categoria -->
+                <div class="chart-container dashboard-box">
+                    <div class="box-header">
+                        <h2><i class="fa-solid fa-chart-column"></i> Divisão de Gastos</h2>
+                        <span class="box-subtitle">Visão Mensal</span>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="category-chart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Painel Inferior: Histórico de Transações -->
+            <section class="dashboard-bottom">
+                <div class="transactions-container dashboard-box">
+                    <div class="box-header search-header">
+                        <h2><i class="fa-solid fa-clock-rotate-left"></i> Histórico de Transações</h2>
+                        <div class="table-filters">
+                            <div class="search-box">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                                <input type="text" id="search-input" placeholder="Buscar transação...">
+                            </div>
+                            <select id="filter-type" class="filter-select">
+                                <option value="all">Todos</option>
+                                <option value="income">Apenas Receitas</option>
+                                <option value="expense">Apenas Despesas</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="transactions-table">
+                            <thead>
+                                <tr>
+                                    <th>Descrição</th>
+                                    <th>Categoria</th>
+                                    <th>Data</th>
+                                    <th>Valor</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="transactions-list">
+                                <!-- Elementos inseridos dinamicamente por JS -->
+                            </tbody>
+                        </table>
+                        <div class="empty-state" id="empty-state">
+                            <i class="fa-regular fa-folder-open"></i>
+                            <p>Nenhuma transação cadastrada ainda.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Script de Lógica Principal -->
+    <script src="app.js"></script>
+</body>
+</html>
