@@ -2,10 +2,6 @@
 
 O **FinTrack** é uma aplicação web desenvolvida para auxiliar usuários no gerenciamento de suas finanças pessoais. A plataforma permite registrar receitas e despesas, acompanhar o saldo atual, visualizar gráficos de gastos e monitorar metas de economia de forma simples e intuitiva.
 
-## 📸 Preview
-
-> Adicione aqui uma imagem ou GIF do projeto.
-
 ---
 
 ## 🚀 Funcionalidades
