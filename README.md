@@ -96,32 +96,7 @@ O sistema possui:
 - Tema Claro
 - Design moderno (Glassmorphism)
 - Ícones do Font Awesome
-- Layout responsivo para desktop, tablet e celular.
-
----
-
-## ▶️ Como executar
-
-1. Clone este repositório
-
-```bash
-git clone https://github.com/seuusuario/FinTrack.git
-```
-
-2. Entre na pasta
-
-```bash
-cd FinTrack
-```
-
-3. Abra o arquivo
-
-```text
-index.html
-```
-
-ou utilize a extensão **Live Server** no VS Code.
-
+- Layout responsivo para desktop, tablet e 
 ---
 
 ## 📚 Aprendizados
@@ -162,13 +137,7 @@ Durante o desenvolvimento deste projeto foram praticados:
 
 **Carlos Junio Batista Repetto**
 
-Desenvolvedor Front-end em formação.
-
-LinkedIn: *(adicione seu perfil)*
-
-GitHub: *(adicione seu GitHub)*
-
----
+Desenvolvedor
 
 ## 📄 Licença
 
